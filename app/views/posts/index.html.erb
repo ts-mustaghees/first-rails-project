@@ -1,3 +1,14 @@
-<h1><%= @title %> <small>by <%= @author %></small></h1>
-<p><%= @body %></p>
-<small><%= @publish_date %></small>
+<% provide(:title, "Posts") %>
+
+<div class="container">
+    <% @posts.each do |post| %>
+    <div>
+        <h1><%= post.title %> <small>by <%= post.user.try(:name) %></small></h1>
+        <p><%= post.body %></p>
+        <small><%= post.created_at %></small>
+        <div>
+            <%= link_to 'Read more', post %>
+        </div>
+    </div>
+    <% end %>
+</div>

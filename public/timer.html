@@ -1,0 +1,11 @@
+<div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <h1>Timer</h1>
+    <h3 id="time"></h3>
+</div>
+
+<script>
+    setInterval(function() {
+        const currDate = new Date()
+        document.querySelector('#time').innerHTML = `${currDate.getHours()}:${currDate.getMinutes()}:${currDate.getSeconds()}` 
+    }, 1000)
+</script>
