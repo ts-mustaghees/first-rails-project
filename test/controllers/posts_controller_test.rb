@@ -1,15 +1,9 @@
-require 'test_helper'
+require "test_helper"
 
 class PostsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @post = posts(:one)
     @base_title = "Learning Ruby"
-  end
-
-  test "should get root" do
-    get root_url
-    assert_response :success
-    assert_select "title", "Posts | #{@base_title}"
   end
 
   test "should get index" do

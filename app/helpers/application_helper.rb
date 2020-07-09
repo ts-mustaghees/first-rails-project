@@ -1,11 +1,13 @@
 module ApplicationHelper
 
-  def render_stars(value)
-    output = ""
-    if (1..5).include?(value)
-      value.times { output += "*" }
+  def full_title(page_title='')
+    base_title = 'Learning Ruby'
+
+    if page_title.empty?
+      base_title
+    else
+      page_title + ' | ' + base_title
     end
-    output
   end
 
 end

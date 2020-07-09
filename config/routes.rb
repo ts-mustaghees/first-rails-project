@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-  resources :users
+  get '/home', { to: 'static_pages#home' }
+  get '/timer', to: 'static_pages#timer', as: 'timey'
+  get '/register', to: 'users#new'
   resources :posts
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  root 'posts#index'
+  root 'static_pages#home'
 end

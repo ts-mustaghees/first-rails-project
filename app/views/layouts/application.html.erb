@@ -2,21 +2,20 @@
 <html>
 
 <head>
-    <title><%= yield(:title) %> | Learning Ruby</title>
+    <title><%= full_title(yield(:title)) %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= stylesheet_link_tag 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 </head>
 
 <body>
-    <%= render partial: "shared/header" %>
+    <%= render partial: "layouts/header" %>
 
     <%= yield %>
 
-    <%= render partial: "shared/footer" %>
+    <%= render partial: "layouts/footer" %>
 </body>
 
 </html>
