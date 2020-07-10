@@ -1,14 +1,22 @@
-<p id="notice"><%= notice %></p>
+<% provide(:title, "#{@user.name}'s Profile") %>
 
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
+<div class="container">
+  <% flash.each do |message_type, message| %>
+    <%= content_tag(:div, message, class: "alert alert-#{message_type }") %>
+  <% end %>
 
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
+  <p>
+    <%= gravatar_for(@user) %>
+    <h2><%= @user.name %></h2>
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+    <strong>Email:</strong> <%= @user.email %>
+  </p>
+
+  <div>
+    <div>User joined at: <%= @user.created_at %></div>
+    <div>Profile updated at: <%= @user.updated_at %></div>
+    Current time: <%= Time.now %>
+  </div>
+
+  <%= link_to 'Update Profile', edit_user_path(@user) %>
+</div>
