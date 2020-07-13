@@ -1,10 +1,6 @@
 <% provide(:title, "#{@user.name}'s Profile") %>
 
 <div class="container">
-  <% flash.each do |message_type, message| %>
-    <%= content_tag(:div, message, class: "alert alert-#{message_type }") %>
-  <% end %>
-
   <p>
     <%= gravatar_for(@user) %>
     <h2><%= @user.name %></h2>
