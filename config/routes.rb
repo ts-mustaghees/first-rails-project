@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get '/register',  to: 'users#new'
   post '/register', to: 'users#create'
   resources :posts
-  resources :users
+  resources :users, except: :create
 
   root 'static_pages#home'
 end

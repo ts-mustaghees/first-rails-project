@@ -65,3 +65,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # custom
 gem 'bootstrap'
 gem 'bcrypt'
+gem 'faker'
+gem 'will_paginate'

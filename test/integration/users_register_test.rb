@@ -7,7 +7,7 @@ class UsersRegisterTest < ActionDispatch::IntegrationTest
     assert_select "form[action='#{register_path}']"
 
     assert_no_difference 'User.count' do
-      post users_path, params: {
+      post register_path, params: {
         user: {
           name: "",
           email: "invalid@google",
@@ -27,7 +27,7 @@ class UsersRegisterTest < ActionDispatch::IntegrationTest
     assert_select "form[action='#{register_path}']"
 
     assert_difference 'User.count' do
-      post users_path, params: {
+      post register_path, params: {
         user: {
           name: "Test Acc",
           email: "test@google.com",

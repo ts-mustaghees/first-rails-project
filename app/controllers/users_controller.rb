@@ -1,11 +1,14 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update]
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
+  before_action :correct_user, only: [:edit, :update]
+  before_action :admin_user, only: :destroy
   rescue_from ActiveRecord::RecordNotFound, with: :show_errors
 
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    @users = User.paginate(page: params[:page], per_page: 10)
   end
 
   # GET /users/1
@@ -44,8 +47,9 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+      if @user.update_attributes(user_params)
+        flash[:success] = "Your profile was successfully updated."
+        format.html { redirect_to @user }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
@@ -57,9 +61,10 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    @user.destroy
+    user = User.find(params[:id]).destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      flash[:success] = "#{user.name} was successfully destroyed."
+      format.html { redirect_to users_url }
       format.json { head :no_content }
     end
   end
@@ -78,5 +83,25 @@ class UsersController < ApplicationController
     def show_errors
       flash[:error] = "User not found"
       redirect_to root_path
+    end
+
+    def logged_in_user
+      unless logged_in?
+        store_location 
+        flash[:danger] = "Please login first."
+        redirect_to login_url
+      end 
+    end
+
+    def correct_user
+      @user = User.find(params[:id])
+      redirect_to root_url unless current_user?(@user)
+    end
+
+    def admin_user
+      if !current_user.admin?
+        flash[:danger] = "Unauthorized to perform deletion."
+        redirect_to users_path
+      end
     end
 end
