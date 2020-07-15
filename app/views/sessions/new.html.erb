@@ -1,6 +1,6 @@
 <% provide(:title, "Login") %>
 
-<div class="container">
+<div class="container mt-5">
   <h1 class="text-center">Log in to your account</h1>
 
   <div class="row justify-content-center">
@@ -28,6 +28,7 @@
       <% end %>
 
       <p>New user? <%= link_to "Register a new account!", register_path %></p>
+      <p><%= link_to "Forgot password?", new_password_reset_path %></p>
     </div>
   </div>
 </div>

@@ -8,9 +8,11 @@ Rails.application.routes.draw do
 
   get '/register',  to: 'users#new'
   post '/register', to: 'users#create'
+
   resources :posts
   resources :users, except: :create
   resources :account_activations, only: [:edit]
+  resources :password_resets, only: [:new, :edit, :create, :update]
 
   root 'static_pages#home'
 end
