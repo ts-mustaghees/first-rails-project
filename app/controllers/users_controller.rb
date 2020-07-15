@@ -8,12 +8,13 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.paginate(page: params[:page], per_page: 10)
+    @users = User.where(activated: true).paginate(page: params[:page], per_page: 10)
   end
 
   # GET /users/1
   # GET /users/1.json
   def show
+    redirect_to root_url and return unless @user.activated?
   end
 
   # GET /users/new
@@ -32,13 +33,13 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        log_in @user
-        flash[:success] = "Welcome to Learning Ruby, #{@user.name}!"
-        format.html { redirect_to user_url(@user) }
-        format.json { render :show, status: :created, location: @user }
+        @user.send_activation_email
+        flash[:info] = "#{@user.name}, please check your email for account activation link."
+        format.html { redirect_to root_url }
+        #format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        #format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -48,7 +49,11 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update_attributes(user_params)
-        flash[:success] = "Your profile was successfully updated."
+        if current_user.admin?
+          flash[:success] = "#{@user.name}'s profile was successfully updated."
+        else
+          flash[:success] = "Your profile was successfully updated."
+        end
         format.html { redirect_to @user }
         format.json { render :show, status: :ok, location: @user }
       else
@@ -95,7 +100,7 @@ class UsersController < ApplicationController
 
     def correct_user
       @user = User.find(params[:id])
-      redirect_to root_url unless current_user?(@user)
+      redirect_to root_url unless current_user?(@user) || admin_user
     end
 
     def admin_user
@@ -103,5 +108,7 @@ class UsersController < ApplicationController
         flash[:danger] = "Unauthorized to perform deletion."
         redirect_to users_path
       end
+
+      true
     end
 end

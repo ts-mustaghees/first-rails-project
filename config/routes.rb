@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   post '/register', to: 'users#create'
   resources :posts
   resources :users, except: :create
+  resources :account_activations, only: [:edit]
 
   root 'static_pages#home'
 end

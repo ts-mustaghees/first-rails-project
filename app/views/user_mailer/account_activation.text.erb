@@ -1,0 +1,7 @@
+Hi <%= @user.name %>
+
+Welcome to Learning Ruby! Click on the following link to activate your account:
+
+<%= edit_account_activation_url(@user.activation_token, email: @user.email) %>
+
+If clicking on the link does not opens it, please copy and paste it in a browser's address bar, then open it.

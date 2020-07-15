@@ -7,9 +7,9 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 users = User.create([
-  { name: 'A. Abed', email: 'abed@gmail.com', password: 'abed@gmail.com', password_confirmation: 'abed@gmail.com', admin: true },
-  { name: 'Sumail Hassan', email: 'sumail@google.com', password: 'sumail@google.com', password_confirmation: 'sumail@google.com' },
-  { name: 'Musawer Khan', email: 'khan.musawer@yahoo.com', password: 'khan@yahoo.com', password_confirmation: 'khan@yahoo.com' }
+  { name: 'A. Abed', email: 'abed@gmail.com', password: 'abed@gmail.com', password_confirmation: 'abed@gmail.com', admin: true, activated: true, activated_at: Time.zone.now },
+  { name: 'Sumail Hassan', email: 'sumail@google.com', password: 'sumail@google.com', password_confirmation: 'sumail@google.com', activated: true, activated_at: Time.zone.now },
+  { name: 'Musawer Khan', email: 'khan.musawer@yahoo.com', password: 'khan@yahoo.com', password_confirmation: 'khan@yahoo.com', activated: true, activated_at: Time.zone.now }
 ])
 
 posts = Post.create([
@@ -27,6 +27,8 @@ posts = Post.create([
     name: name,
     email: email,
     password: password,
-    password_confirmation: password
+    password_confirmation: password,
+    activated: true,
+    activated_at: Time.zone.now
   )
 end

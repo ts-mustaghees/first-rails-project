@@ -1,0 +1,8 @@
+<h1>Learning Ruby</h1>
+
+<h3>Welcome to Learning Ruby, <%= @user.name %>!</h3>
+
+<p>
+  Click on the following link to activate your account:
+  <%= link_to "Activate", edit_account_activation_url(@user.activation_token, email: @user.email) %>
+</p>
