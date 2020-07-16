@@ -7,3 +7,19 @@
     <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
   </p>
 </div>
+
+<% if logged_in? %>
+  <div class="row">
+    <aside class="col-md-4">
+      <%= render 'shared/user', user: current_user %>
+
+      <section id='post-form'>
+        <%= render 'shared/post_form', post: @post %>
+      </section>
+    </aside>
+
+    <main class="col-md-8">
+      <%= render @posts %>
+    </main>
+  </div>
+<% end %>

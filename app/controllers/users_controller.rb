@@ -14,6 +14,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    @posts = @user.posts.paginate(page: params[:page], per_page: 10)
     redirect_to root_url and return unless @user.activated?
   end
 
@@ -33,7 +34,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        @user.send_activation_email
+        #@user.send_activation_email
         flash[:info] = "#{@user.name}, please check your email for account activation link."
         format.html { redirect_to root_url }
         #format.json { render :show, status: :created, location: @user }
@@ -88,27 +89,5 @@ class UsersController < ApplicationController
     def show_errors
       flash[:error] = "User not found"
       redirect_to root_path
-    end
-
-    def logged_in_user
-      unless logged_in?
-        store_location 
-        flash[:danger] = "Please login first."
-        redirect_to login_url
-      end 
-    end
-
-    def correct_user
-      @user = User.find(params[:id])
-      redirect_to root_url unless current_user?(@user) || admin_user
-    end
-
-    def admin_user
-      if !current_user.admin?
-        flash[:danger] = "Unauthorized to perform deletion."
-        redirect_to users_path
-      end
-
-      true
     end
 end

@@ -1,10 +1,11 @@
 class User < ApplicationRecord
+  has_many :posts, dependent: :destroy
+  has_many :comments, dependent: :destroy
+  
   attr_accessor :remember_token, :activation_token, :reset_token
 
   before_save { email.downcase! }
   before_create :create_activation_digest
-
-  has_many :posts
 
   validates :name, length: { maximum: 50 }, presence: true
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+\.[a-z]+\z/i
@@ -14,6 +15,8 @@ class User < ApplicationRecord
   
   has_secure_password
   
+  after_create :send_activation_email
+
   def remember
     self.remember_token = User.new_token
     update_attribute(:remember_digest, User.digest(remember_token))

@@ -1,32 +1,24 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
-
-  def index
-    @posts = Post.all
-  end
-
-  def show
-  end
-
-  def new
-    @post = Post.new
-  end
-
-  def edit
-  end
+  before_action :set_post, only: [:update, :destroy]
+  before_action :logged_in_user, only: [:create, :update, :destroy]
 
   def create
-    @post = Post.new(post_params)
+    @post = current_user.posts.build(post_params)
 
     respond_to do |format|
       if @post.save
-        format.html { redirect_to @post, notice: "Post was successfully published." }
-        format.json { render :show, status: :created, location: @post }
+        flash[:success] = "#{@post.title} was successfully published."
+        format.html { redirect_to root_url }
+        format.json { render root_url, status: :created, location: @post }
       else
-        format.html { render :new }
+        format.html { render 'static_pages/home' }
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def destroy
+
   end
 
   private

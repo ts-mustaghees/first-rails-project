@@ -1,14 +1,11 @@
 <% provide(:title, "Posts") %>
 
-<div class="container">
-    <% @posts.each do |post| %>
-    <div>
-        <h1><%= post.title %> <small>by <%= post.user.try(:name) %></small></h1>
-        <p><%= post.body %></p>
-        <small><%= post.created_at %></small>
-        <div>
-            <%= link_to 'Read more', post %>
-        </div>
+<div class="container mt-5">
+    <h2 class="text-center">All Posts</h2>
+
+    <%= will_paginate renderer: custom_paginate_renderer %>
+    
+    <div class="mt-3">
+        <%= render @posts %>
     </div>
-    <% end %>
 </div>

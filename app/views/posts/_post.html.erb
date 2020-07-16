@@ -1,0 +1,29 @@
+<div class="post card flex-md-row box-shadow mb-5">
+  <img class="card-img-top" src="<%= gravatar_url_for(post.user, size: 250) %>" alt="Profile pic" style="width: 200px; height: 250px;" />
+  <div class="card-body">
+    <h5 class="card-title"><%= post.title %> <small>by <%= post.user.name %></small></h5>
+    <div class="text-muted"><%= time_ago_in_words(post.created_at) %> ago</div>
+    
+    <p class="card-text"><%= post.body %></p>
+
+    <% if post.comments.size > 0 %>
+      <%= link_to "VIEW COMMENTS (#{post.comments.size})", '#', class: "card-link show-comments-btn" %>
+      <%= link_to "HIDE COMMENTS", '#', class: "card-link hide-comments-btn d-none" %>
+    <% else %>
+      <%= link_to "No Comments", '#', class: "card-link btn disabled" %>
+    <% end %>
+
+    <% if current_user?(post.user) %>
+      <%= link_to 'EDIT', '#', class: "card-link" %>
+      <%= link_to 'DELETE', post_path(post), method: :delete, class: "card-link text-danger" %>
+    <% end %>
+
+    <!-- Comments section -->
+    <div class="comments d-none">
+      <h4>Comments</h4>
+      <% post.comments.each do |c| %>
+        <%= c.content %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -14,3 +14,28 @@
 //= require activestorage
 //= require turbolinks
 //= require_tree .
+//= require jquery3
+//= require popper
+//= require bootstrap-sprockets
+
+$(document).ready(function () {
+    $('.show-comments-btn').click(function (e) {
+        e.preventDefault()
+        const target = $(e.target)
+        
+        target.addClass('d-none')
+        target.parent().children('.hide-comments-btn').removeClass('d-none')
+        
+        target.parent().children('div.comments').removeClass('d-none')
+    })
+
+    $('.hide-comments-btn').click(function (e) {
+        e.preventDefault()
+        const target = $(e.target)
+        
+        target.addClass('d-none')
+        target.parent().children('.show-comments-btn').removeClass('d-none')
+        
+        target.parent().children('div.comments').addClass('d-none')
+    })
+})

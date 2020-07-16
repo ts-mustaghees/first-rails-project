@@ -32,3 +32,11 @@ posts = Post.create([
     activated_at: Time.zone.now
   )
 end
+
+User.order(:created_at).take(6).each do |u|
+  50.times do |n|
+    u.posts.create!(
+      title: "Generated post ##{n}", body: Faker::Lorem.sentence(word_count: 6)
+    )
+  end
+end
