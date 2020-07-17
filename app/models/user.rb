@@ -64,6 +64,10 @@ class User < ApplicationRecord
     reset_sent_at < 2.hours.ago
   end
 
+  def feed(page)
+    Post.where("user_id = ?", id).paginate(page: page, per_page: 12)
+  end
+
   private
     def create_activation_digest
       self.activation_token = User.new_token

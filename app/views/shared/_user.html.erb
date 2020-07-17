@@ -1,7 +1,6 @@
-<tr>
-  <td><%= link_to user.name, user %></td>
-  <td><%= user.email %></td>
-  <td><%= gravatar_for user, size: 50 %></td>
-  <td><%= link_to 'Edit', edit_user_path(user) %></td>
-  <% if current_user.admin? && !current_user?(user) %><td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td><% end %>
-</tr>
+<div class="container">
+  <h3><%= gravatar_for user, size: 50 %> <%= link_to user.name, user %></h3>
+  <p><%= user.email %></p>
+  <%= link_to 'Edit', edit_user_path(user) %>
+  <%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } if current_user.admin? && !current_user?(user) %>
+</div>

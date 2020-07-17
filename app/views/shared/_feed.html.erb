@@ -1,0 +1,4 @@
+<% if @feed.any? %>
+  <%= render @feed %>
+  <%= will_paginate @feed, renderer: custom_paginate_renderer %>
+<% end %>

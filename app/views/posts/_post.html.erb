@@ -6,6 +6,10 @@
     
     <p class="card-text"><%= post.body %></p>
 
+    <div>
+      <%= image_tag post.picture.url if post.picture? %>
+    </div>
+
     <% if post.comments.size > 0 %>
       <%= link_to "VIEW COMMENTS (#{post.comments.size})", '#', class: "card-link show-comments-btn" %>
       <%= link_to "HIDE COMMENTS", '#', class: "card-link hide-comments-btn d-none" %>
@@ -13,7 +17,7 @@
       <%= link_to "No Comments", '#', class: "card-link btn disabled" %>
     <% end %>
 
-    <% if current_user?(post.user) %>
+    <% if current_user?(post.user) || current_user.try(:admin?) %>
       <%= link_to 'EDIT', '#', class: "card-link" %>
       <%= link_to 'DELETE', post_path(post), method: :delete, class: "card-link text-danger" %>
     <% end %>
