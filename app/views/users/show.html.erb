@@ -1,18 +1,15 @@
 <% provide(:title, "#{@user.name}'s Profile") %>
 
 <div class="container mt-5">
-  <p>
-    <%= gravatar_for(@user) %>
-    <h2><%= @user.name %></h2>
-
-    <strong>Email:</strong> <%= @user.email %>
-  </p>
+  <%= render 'shared/user', user: @user %>
 
   <div>
     <div>User joined at: <%= @user.created_at %></div>
     <div>Profile updated at: <%= @user.updated_at %></div>
     Current time: <%= Time.now %>
   </div>
+
+  <%= render 'follow_form' if logged_in? %>
 
   <%= link_to 'Update Profile', edit_user_path(@user) %>
 </div>
@@ -26,10 +23,10 @@
       <a class="nav-link" id="comments-tab" data-toggle="tab" href="#comments" role="tab" aria-controls="comments" aria-selected="false">Comments</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link disabled" id="following-tab" data-toggle="tab" href="#following" role="tab" aria-controls="following" aria-selected="false">Following</a>
+      <a class="nav-link" id="following-tab" data-toggle="tab" href="#following" role="tab" aria-controls="following" aria-selected="false">Following</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link disabled" id="followers-tab" data-toggle="tab" href="#followers" role="tab" aria-controls="followers" aria-selected="false">Followers</a>
+      <a class="nav-link" id="followers-tab" data-toggle="tab" href="#followers" role="tab" aria-controls="followers" aria-selected="false">Followers</a>
     </li>
   </ul>
 
@@ -42,19 +39,37 @@
     </div>
 
     <div class="tab-pane fade" id="comments" role="tabpanel" aria-labelledby="comments-tab">
-      
       <div class="mt-3">
-        <% @user.comments.each do |c| %>
-          <%= c.content %> at <%= c.created_at.strftime("%-d/%-m/%y: %k:%M %p") %> on <%= c.post.title %>
+        <% if @comments.size > 0 %>
+          <% @comments.each do |c| %>
+            <%= c.content %> at <%= c.created_at.strftime("%-d/%-m/%y: %k:%M %p") %> on <%= c.post.title %>
+          <% end %>
+        <% else %>
+          You have not made any comments yet.
         <% end %>
       </div>
     </div>
 
+    <!-- use Ajax for pagination  -->
     <div class="tab-pane fade" id="following" role="tabpanel" aria-labelledby="following-tab">
-      Following
-    </div>
-
-    <div class="tab-pane fade" id="followers" role="tabpanel" aria-labelledby="followers-tab">
-      Followers
-    </div>
+      <% if @following.size > 0 %>
+        <%= will_paginate @following, renderer: custom_paginate_renderer, param_name: 'following_page' %>
+        <% @following.each do |leader| %>
+          <%= render 'shared/user', user: leader %>
+        <% end %>
+    <% else %>
+      You are not following anyone :(
+    <% end %>
   </div>
+
+  <div class="tab-pane fade" id="followers" role="tabpanel" aria-labelledby="followers-tab">
+    <% if @followers.size > 0 %>
+      <%= will_paginate @followers, renderer: custom_paginate_renderer, param_name: 'followers_page' %>
+      <% @followers.each do |follower| %>
+        <%= render 'shared/user', user: follower %>
+      <% end %>
+    <% else %>
+      No one is following you :(
+    <% end %>
+  </div>
+</div>

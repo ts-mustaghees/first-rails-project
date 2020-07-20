@@ -12,7 +12,7 @@
   <% if logged_in? %>
     <div class="row">
       <aside class="col-md-4">
-        <%= render 'shared/user', user: current_user %>
+        <%= render 'shared/user', user: current_user, show_user_settings: true %>
 
         <section id='post-form' class="container mt-3">
           <h3>New Post</h3>

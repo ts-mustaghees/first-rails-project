@@ -13,7 +13,7 @@ class PostsController < ApplicationController
         format.html { redirect_to request.referrer || root_url }
         format.json { render root_url, status: :created, location: @post }
       else
-        @feed = current_user.feed(nil)
+        @feed = current_user.feed.paginate(page: params[:page], per_page: 10)
         format.html { render 'static_pages/home' } # redirect_to root_url
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end

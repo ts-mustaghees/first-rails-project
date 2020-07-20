@@ -1,0 +1,9 @@
+<% user ||= current_user %>
+<div class="stats">
+    <button class="btn btn-dark my-2">
+        Following <span class="badge badge-pill badge-light"><%= user.following.size %></span>
+    </button>
+    <button class="btn btn-dark my-2">
+        Followers <span class="badge badge-pill badge-light"><%= user.followers.size %></span>
+    </button>
+</div>

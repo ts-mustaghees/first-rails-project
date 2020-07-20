@@ -14,7 +14,10 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @posts = @user.posts.paginate(page: params[:page], per_page: 10)
+    @posts     = @user.posts.paginate(page: params[:page], per_page: 10).includes([:comments])
+    @comments  = @user.comments
+    @following = @user.following.paginate(page: params[:following_page], per_page: 10)
+    @followers = @user.followers.paginate(page: params[:followers_page], per_page: 10)
     redirect_to root_url and return unless @user.activated?
   end
 

@@ -4,7 +4,7 @@
 
   <%= will_paginate renderer: custom_paginate_renderer %>
       <% @users.each do |u| %>
-        <%= render 'shared/user', user: u %>
+        <%= render 'shared/user', user: u, show_user_settings: true %>
       <% end %>
   <%= will_paginate renderer: custom_paginate_renderer %>
 
