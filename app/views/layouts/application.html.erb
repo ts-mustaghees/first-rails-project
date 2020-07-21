@@ -17,6 +17,17 @@
       <% if !flash.empty? %>
         <div class="container mt-3">
           <% flash.each do |message_type, message| %>
+            <%
+              # swap devise flash keys for bootstrap ones
+              case message_type
+                when 'alert'
+                  message_type = 'warning'
+                when 'notice'
+                  message_type = 'info'
+                when 'error'
+                  message_type = 'danger'
+              end
+            %>
             <%= content_tag(:div, message, class: "alert alert-#{message_type }") %>
           <% end %>
         </div>

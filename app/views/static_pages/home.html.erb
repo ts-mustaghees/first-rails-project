@@ -9,7 +9,7 @@
 </div>
 
 <div class="container-fluid">
-  <% if logged_in? %>
+  <% if user_signed_in? %>
     <div class="row">
       <aside class="col-md-4">
         <%= render 'shared/user', user: current_user, show_user_settings: true %>

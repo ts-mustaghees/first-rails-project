@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:update, :destroy]
-  before_action :logged_in_user, only: [:create, :update, :destroy]
+  before_action :authenticate_user!, only: [:create, :update, :destroy]
   before_action :correct_user, only: [:update, :destroy]
 
   # Note: This better be done through AJAX

@@ -9,9 +9,9 @@
     Current time: <%= Time.now %>
   </div>
 
-  <%= render 'follow_form' if logged_in? %>
+  <%= render 'follow_form' if user_signed_in? %>
 
-  <%= link_to 'Update Profile', edit_user_path(@user) %>
+  <%= link_to 'Update Profile', edit_user_registration_path %>
 </div>
 
 <div class="container mt-3">

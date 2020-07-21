@@ -8,10 +8,10 @@ class UsersEditTest < ActionDispatch::IntegrationTest
   test "unsuccessfull edit" do
     log_in_as(@user)
   
-    get edit_user_path(@user)
+    get edit_user_registration_path
     assert_template 'users/edit'
 
-    patch user_path(@user), params: {
+    patch user_registration_path(@user), params: {
       user: { name: "", email: "foo@xyz", password: "132", password_confirmation: "asdfg" }
     }
 
@@ -20,15 +20,15 @@ class UsersEditTest < ActionDispatch::IntegrationTest
   end
 
   test "successfull edit with friendly forwarding" do
-    get edit_user_path(@user)
+    get edit_user_registration_path
     log_in_as(@user)
-    assert_redirected_to edit_user_url(@user)
+    assert_redirected_to edit_user_registration_url(@user)
     assert_nil session[:forwarding_url]
 
     name = "Mark Zuckerberg"
     email = "mark@facebook.com"
 
-    patch user_path(@user), params: {
+    patch user_registration_path(@user), params: {
       user: { name: name, email: email, password: '', password_confirmation: '' }
     }
 

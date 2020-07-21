@@ -6,7 +6,7 @@ class RelationshipsControllerTest < ActionDispatch::IntegrationTest
       post relationships_path
     end
 
-    assert_redirected_to login_url
+    assert_redirected_to new_user_session_url
   end
 
   test "destroy should require login" do
@@ -14,6 +14,6 @@ class RelationshipsControllerTest < ActionDispatch::IntegrationTest
       delete relationship_path(relationships(:one))
     end
 
-    assert_redirected_to login_url
+    assert_redirected_to new_user_session_url
   end
 end

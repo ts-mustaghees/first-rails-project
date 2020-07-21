@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update]
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:index, :edit, :update, :destroy]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: :destroy
   rescue_from ActiveRecord::RecordNotFound, with: :show_errors
@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.where(activated: true).paginate(page: params[:page], per_page: 10)
+    @users = User.where(confirmed_at: true).paginate(page: params[:page], per_page: 10)
   end
 
   # GET /users/1
@@ -18,7 +18,7 @@ class UsersController < ApplicationController
     @comments  = @user.comments
     @following = @user.following.paginate(page: params[:following_page], per_page: 10)
     @followers = @user.followers.paginate(page: params[:followers_page], per_page: 10)
-    redirect_to root_url and return unless @user.activated?
+    redirect_to root_url and return unless @user.confirmed?
   end
 
   # GET /users/new

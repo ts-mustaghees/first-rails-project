@@ -76,15 +76,15 @@ class PasswordResetsTest < ActionDispatch::IntegrationTest
   end
 
   test "reset expires" do
-    get new_password_reset_path
-    post password_resets_path, params: {
+    get edit_user_password_path
+    post user_password_path, params: {
       password_reset: { email: @user.email }
     }
 
     user = assigns(:user)
-    user.update_attribute(:reset_sent_at, 3.hours.ago)
+    user.update_attribute(:reset_password_sent_at, 3.hours.ago)
 
-    patch password_reset_path(user.reset_token), params: {
+    patch user_password_path(user.reset_token), params: {
       email: user.email,
       user: { password: '123123123', password_confirmation: '123123123' }
     }

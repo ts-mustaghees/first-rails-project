@@ -26,12 +26,12 @@ class UsersRegisterTest < ActionDispatch::IntegrationTest
   end
 
   test "successful registration with account activation" do
-    get register_path
+    get new_user_registration_path
 
-    assert_select "form[action='#{register_path}']"
+    assert_select "form[action='#{new_user_registration_path}']"
 
     assert_difference 'User.count', 1 do
-      post register_path, params: {
+      post user_registration_path, params: {
         user: {
           name: "Test Acc",
           email: "test@google.com",
@@ -43,7 +43,7 @@ class UsersRegisterTest < ActionDispatch::IntegrationTest
 
     assert_equal 1, ActionMailer::Base.deliveries.size
     user = assigns(:user)
-    assert_not user.activated?
+    assert_not user.confirmed?
 
     # Try to login before activation
     log_in_as(user)
@@ -59,7 +59,7 @@ class UsersRegisterTest < ActionDispatch::IntegrationTest
 
     # Valid activation link
     get edit_account_activation_path(user.activation_token, email: user.email)
-    assert user.reload.activated?
+    assert user.reload.confirmed?
 
     follow_redirect!
     assert_template 'users/show'

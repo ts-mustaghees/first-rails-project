@@ -10,14 +10,14 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
       post posts_path, params: { post: { title: 'New Title', body: 'Lorem Ipsum...' } }
     end
 
-    assert_redirected_to login_url
+    assert_redirected_to new_user_session_url
   end
 
   test "should redirect destroy when not logged in" do
     assert_no_difference 'Post.count', -1 do
       delete post_path(@post)
     end
-    assert_redirected_to login_url
+    assert_redirected_to new_user_session_url
   end
 
   test "should redirect destroy for wrong post" do
