@@ -8,20 +8,13 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
   include ApplicationHelper
+  include Devise::Test::IntegrationHelpers
 
-  def is_logged_in?
-    !session[:user_id].nil?
-  end
-
-  def log_in_as(user)
-    session[:user_id] = user.id
-  end
+  # def is_logged_in?
+  #   !session[:user_id].nil?
+  # end
 end
 
 class ActionDispatch::IntegrationTest
-  def log_in_as(user, password: 'password', remember_me: '1')
-    post new_user_session_path, params: {
-      session: { email: user.email, password: password, remember_me: remember_me }
-    }
-  end
+  # include Devise::Test::IntegrationHelpers
 end

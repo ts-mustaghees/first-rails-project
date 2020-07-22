@@ -6,7 +6,7 @@ class PostsInterfaceTest < ActionDispatch::IntegrationTest
   end
 
   test "post interface" do
-    log_in_as(@user)
+    sign_in @user
     get root_path
     assert_select 'div.pagination'
     assert_select 'input[type=file]'

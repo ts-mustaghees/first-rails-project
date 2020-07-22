@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.where(confirmed_at: true).paginate(page: params[:page], per_page: 10)
+    @users = User.where('confirmed_at IS NOT NULL').paginate(page: params[:page], per_page: 10)
   end
 
   # GET /users/1
@@ -21,31 +21,8 @@ class UsersController < ApplicationController
     redirect_to root_url and return unless @user.confirmed?
   end
 
-  # GET /users/new
-  def new
-    @user = User.new
-  end
-
   # GET /users/1/edit
   def edit
-  end
-
-  # POST /users
-  # POST /users.json
-  def create
-    @user = User.new(user_params)
-
-    respond_to do |format|
-      if @user.save
-        #@user.send_activation_email
-        flash[:info] = "#{@user.name}, please check your email for account activation link."
-        format.html { redirect_to root_url }
-        #format.json { render :show, status: :created, location: @user }
-      else
-        format.html { render :new }
-        #format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
   end
 
   # PATCH/PUT /users/1

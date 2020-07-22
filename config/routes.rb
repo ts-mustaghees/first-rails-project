@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get '/timer',     to: 'static_pages#timer', as: 'timey'
 
   resources :posts,               only: [:create, :update, :destroy]
-  resources :users,               except: [:new, :create, :edit, :update, :destroy] do
+  resources :users,               except: [:new, :create, :edit, :update] do
     member do
       get :following, :followers
     end

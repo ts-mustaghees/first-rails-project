@@ -7,7 +7,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get new" do
-    get register_url
+    get user_registration_url
     assert_response :success
   end
 
@@ -17,19 +17,19 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should redirect edit when not logged in" do
-    get edit_user_path(@user)
+    get edit_user_registration_path(@user)
     assert_not flash.empty?
     assert_redirected_to new_user_session_url
   end
 
   test "should redirect update when not logged in" do
-    patch user_path(@user), params: { user: { name: @user.name, email: @user.email } }
+    patch user_registration_path, params: { user: { name: @user.name, email: @user.email } }
     assert_not flash.empty?
     assert_redirected_to new_user_session_url
   end
 
   test "should redirect edit when logged in as non-admin wrong user" do
-    log_in_as(@other_user)
+    sign_in @other_user
     
     get edit_user_registration_path(@user)
 
@@ -40,9 +40,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should redirect update when logged in as wrong non-admin user" do
-    log_in_as(@other_user)
+    sign_in @other_user
     
-    patch user_path(@user), params: { user: { name: @user.name, email: @user.email } }
+    patch user_registration_path, params: { user: { name: @user.name, email: @user.email } }
 
     if !@user.admin?
       assert flash.empty?
@@ -51,10 +51,10 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not allow the admin attribute to be edited via the web" do
-    log_in_as(@other_user)
+    sign_in @other_user
     assert_not @other_user.admin?
     
-    patch user_path(@other_user), params: {
+    patch user_registration_path, params: {
       user: {
         password: 'password',
         password_confirmation: 'password',
@@ -66,18 +66,19 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should redirect destroy when not logged in" do
     assert_no_difference 'User.count' do
-      delete user_path(@user)
+      delete user_registration_path(@user)
     end
     assert_redirected_to new_user_session_url
   end
 
-  test "should redirect destroy when logged in as a non-admin" do
-    log_in_as(@other_user)
-    assert_no_difference 'User.count' do
-      delete user_path(@user)
-    end
-    assert_redirected_to users_path
-  end
+  # cant get other user's edit page now
+  # test "should redirect destroy when logged in as a non-admin" do
+  #   sign_in @other_user
+  #   assert_no_difference 'User.count' do
+  #     delete user_registration_path
+  #   end
+  #   assert_redirected_to users_path
+  # end
 
   # test "should create user" do
   #   assert_difference('User.count') do

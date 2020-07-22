@@ -44,7 +44,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "email validation should reject invalid addresses" do
-    invalid_addresses = %w[user\ @gmail.com @gmail.com user@ user.gmail.com user@gmail user@gmail. foobar@gmail..com user@gmail,com foo@bar_baz.com foo@bar+baz.com]
+    invalid_addresses = %w[user\ @gmail.com @gmail.com user@ user.gmail.com user@gmail. foobar@gmail..com user@gmail,com foo@bar_baz.com foo@bar+baz.com]
 
     invalid_addresses.each do |invalid_address|
       @user.email = invalid_address
@@ -75,10 +75,6 @@ class UserTest < ActiveSupport::TestCase
   test "password should have a minimum length" do
     @user.password = @user.password_confirmation = "a" * 5
     assert_not @user.valid?
-  end
-
-  test "authenticated? should return false for a user with nil remember_digest" do
-    assert_not @user.user_signed_in?(:remember, '')
   end
 
   test "associated posts should be destroyed" do
